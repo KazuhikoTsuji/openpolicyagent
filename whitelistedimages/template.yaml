@@ -34,5 +34,5 @@ spec:
           image := input.review.object.spec.containers[_].image
           name := input.review.object.metadata.name
           not images_whitelisted(image, whitelisted_images)
-          msg := sprintf("pod %q has invalid image %q. Please, contact your DevOps. Follow the whitelisted images %v", [name, image, whitelisted_images])
+          msg := sprintf("pod %q has invalid image %q. Please, contact the administrator. Follow the whitelisted images %v", [name, image, whitelisted_images])
         }
