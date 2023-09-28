@@ -1,0 +1,65 @@
+apiVersion: templates.gatekeeper.sh/v1beta1
+kind: ConstraintTemplate
+metadata:
+  name: k8senforcerunasnonroot
+  annotations:
+    metadata.gatekeeper.sh/title: "Root Container"
+    metadata.gatekeeper.sh/version: 1.0.0
+    description: >-
+      Controls the ability of any container to run as root.
+spec:
+  crd:
+    spec:
+      names:
+        kind: K8sEnforceRunAsNonRoot
+      validation:
+        openAPIV3Schema:
+          type: object
+          description: >-
+            Controls the ability of any container to run as root.
+  targets:
+    - target: admission.k8s.gatekeeper.sh
+      rego: |
+        package disallowroot
+
+        import data.lib.exempt_container.is_exempt
+
+        violation[{"msg": msg}] {
+          c := input_containers[_]
+          not is_exempt(c)
+          not c.securityContext.runAsNonRoot
+          msg := "Containers must not run as root: must specify securityContext.RunAsNonRoot to true"
+        }
+
+        input_containers[c] {
+            c := input.review.object.spec.containers[_]
+        }
+
+        input_containers[c] {
+            c := input.review.object.spec.initContainers[_]
+        }
+
+        input_containers[c] {
+            c := input.review.object.spec.ephemeralContainers[_]
+        }
+      libs:
+        - |
+          package lib.exempt_container
+
+          is_exempt(container) {
+              exempt_images := object.get(object.get(input, "parameters", {}), "exemptImages", [])
+              img := container.image
+              exemption := exempt_images[_]
+              _matches_exemption(img, exemption)
+          }
+
+          _matches_exemption(img, exemption) {
+              not endswith(exemption, "*")
+              exemption == img
+          }
+
+          _matches_exemption(img, exemption) {
+              endswith(exemption, "*")
+              prefix := trim_suffix(exemption, "*")
+              startswith(img, prefix)
+          }
