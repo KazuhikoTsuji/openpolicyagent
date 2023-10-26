@@ -1,12 +1,12 @@
 apiVersion: templates.gatekeeper.sh/v1beta1
 kind: ConstraintTemplate
 metadata:
-  name: k8swhitelistedimages
+  name: k8sallowlistedimages
 spec:
   crd:
     spec:
       names:
-        kind: k8sWhitelistedImages
+        kind: k8sAllowlistedImages
       validation:
         # Schema for the `parameters` field
         openAPIV3Schema:
@@ -17,12 +17,12 @@ spec:
   targets:
     - target: admission.k8s.gatekeeper.sh
       rego: |
-        package k8swhitelistedimages
-        whitelisted_images = {images |
+        package k8sallowlistedimages
+        allowlisted_images = {images |
             images = input.parameters.images[_]
         }
     
-        images_whitelisted(str, patterns) {
+        images_allowlisted(str, patterns) {
             image_matches(str, patterns[_])
         }
     
@@ -33,6 +33,6 @@ spec:
           input.review.object
           image := input.review.object.spec.containers[_].image
           name := input.review.object.metadata.name
-          not images_whitelisted(image, whitelisted_images)
-          msg := sprintf("pod %q has invalid image %q. Please, contact the administrator. Follow the whitelisted images %v", [name, image, whitelisted_images])
+          not images_allowlisted(image, allowlisted_images)
+          msg := sprintf("pod %q has invalid image %q. Please, contact the administrator. Follow the allowlisted images %v", [name, image, allowlisted_images])
         }

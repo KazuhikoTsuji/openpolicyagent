@@ -1,7 +1,7 @@
 apiVersion: constraints.gatekeeper.sh/v1beta1
-kind: k8sWhitelistedImages
+kind: k8sAllowlistedImages
 metadata:
-  name: k8senforcewhitelistedimages
+  name: k8senforceallowlistedimages
 spec:
   match:
     kinds:
@@ -10,7 +10,7 @@ spec:
     excludedNamespaces: ["kube-system"]
   parameters:
     images:
-      # Images used by the infrastructure services inside the kubernetes cluster
+      # Images for kubernetes cluster
       - k8s.gcr.io/autoscaling/cluster-autoscaler
       - k8s.gcr.io/metrics-server-amd64
       - kubernetesui/dashboard
@@ -19,6 +19,9 @@ spec:
       - prom/alertmanager
       - prom/prometheus
       - openpolicyagent/gatekeeper
-      # Images for support
+      - ghcr.io/aquasecurity
+      - registry-auth.twistlock.com
+      # Images for general-use
       - busybox
+      - nginx
       - kazuhikotsuji
