@@ -21,7 +21,7 @@ spec:
       - openpolicyagent/gatekeeper
       - ghcr.io/dexidp
       - quay.io/argoproj/argocd
-      - redis魏t
+      - redis
       - ghcr.io/aquasecurity
       - registry-auth.twistlock.com
       # Images for general-use
