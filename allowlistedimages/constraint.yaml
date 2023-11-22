@@ -10,7 +10,7 @@ spec:
     excludedNamespaces: ["kube-system"]
   parameters:
     images:
-      # Images for kubernetes cluster
+      # Images for administrative-use
       - k8s.gcr.io/autoscaling/cluster-autoscaler
       - k8s.gcr.io/metrics-server-amd64
       - kubernetesui/dashboard
