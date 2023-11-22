@@ -26,4 +26,3 @@ spec:
       - registry-auth.twistlock.com
       # Images for general-use
       - busybox
-      - nginx
