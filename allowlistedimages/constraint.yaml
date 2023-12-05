@@ -25,5 +25,3 @@ spec:
       - ghcr.io/aquasecurity
       - registry-auth.twistlock.com
       # Images for general-use
-      - node
-
