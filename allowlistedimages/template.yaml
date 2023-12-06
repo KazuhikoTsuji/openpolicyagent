@@ -21,13 +21,13 @@ spec:
         allowlisted_images = {images |
             images = input.parameters.images[_]
         }
-    
+
         images_allowlisted(str, patterns) {
             image_matches(str, patterns[_])
         }
-    
+
         image_matches(str, pattern) {
-            contains(str, pattern)
+            startswith(str, pattern)
         }
         violation[{"msg": msg}] {
           input.review.object
