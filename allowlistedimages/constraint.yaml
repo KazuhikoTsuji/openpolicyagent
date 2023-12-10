@@ -18,10 +18,10 @@ spec:
       - grafana/grafana
       - prom/alertmanager
       - prom/prometheus
+      - ghcr.io/aquasecurity
+      - registry-auth.twistlock.com
       - openpolicyagent/gatekeeper
       - ghcr.io/dexidp
       - quay.io/argoproj/argocd
       - redis
-      - ghcr.io/aquasecurity
-      - registry-auth.twistlock.com
       # Images for general-use
