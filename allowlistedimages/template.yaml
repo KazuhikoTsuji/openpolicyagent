@@ -36,3 +36,4 @@ spec:
           not images_allowlisted(image, allowlisted_images)
           msg := sprintf("pod %q has invalid image %q. Please, contact the administrator. Follow the allowlisted images %v", [name, image, allowlisted_images])
         }
+#
