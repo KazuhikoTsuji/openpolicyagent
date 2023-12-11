@@ -25,3 +25,4 @@ spec:
       - quay.io/argoproj/argocd
       - redis
       # Images for general-use
+      - node
